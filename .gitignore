@@ -1,7 +1,7 @@
-# Node modules
+# Carpeta Node modules
 node_modules/
 
-# Logs
+# Logs (Historiales)
 logs/
 *.log
 npm-debug.log*
@@ -9,12 +9,12 @@ npm-debug.log*
 # Compiled output
 dist/
 
-# Dependency directories
+# Directorio de Dependencias
 jspm_packages/
 .pnp
 .pnp.js
 
-# Editor directories and files
+# Directorio de archivos del Editor
 .idea/
 .vscode/
 *.suo
@@ -23,6 +23,6 @@ jspm_packages/
 *.sln
 *.sw?
 
-# OS generated files
+# Archivos Generados por Sistema Operativo
 .DS_Store
 Thumbs.db
