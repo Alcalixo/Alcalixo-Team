@@ -1,48 +1,65 @@
 const productos = require('../models/productosModel');
 
 //Obtener todos los productos
-exports.obtenerProductos = (req, res) => {
-  res.json(productos);
+exports.getProductos = async (req, res) => {
+  try {
+    res.status(200).json(productos);
+  } catch (error) {
+    res.status(500).send('Error en el servidor');
+  }
 };
 
 //Crear un producto
-exports.crearProducto = (req, res) => {
-  const nuevoProducto = req.body;
-  productos.push(nuevoProducto);
-  console.log(`Producto creado con éxito: ${JSON.stringify(nuevoProducto)}`);
-  res.status(201).json({
-    mensaje: 'Producto creado con éxito',
-    producto: nuevoProducto
-  });
+exports.createProducto = async (req, res) => {
+  try {
+    const nuevoProducto = req.body;
+    productos.push(nuevoProducto);
+    console.log(`Producto creado con éxito: ${JSON.stringify(nuevoProducto)}`);
+    res.status(201).json(nuevoProducto);
+  } catch (error) {
+    res.status(500).send('Error en el servidor');
+  }
 };
 
 //Obtener un Producto por ID
-exports.obtenerProductoPorId = (req, res) => {
-  const producto = productos.find(p => p.id === parseInt(req.params.id));
-  if (!producto) return res.status(404).send('Producto no encontrado');
-  res.json(producto);
+exports.findProductoById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const producto = productos.find(p => p.id === parseInt(id));
+    if (!producto) return res.status(404).send('Producto no encontrado');
+    res.status(200).json(producto);
+  } catch (error) {
+    res.status(500).send('Error en el servidor');
+  }
 };
 
 //Actualizar un producto por ID y body
-exports.actualizarProducto = (req, res) => {
-  const producto = productos.find(p => p.id === parseInt(req.params.id));
-  if (!producto) return res.status(404).send('Producto no encontrado');
-  Object.assign(producto, req.body);
-  console.log(`Producto actualizado con éxito: ${JSON.stringify(producto)}`);
-  res.json({
-    mensaje: 'Producto actualizado con éxito',
-    producto: producto
-  });
+exports.updateProducto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let producto = productos.find(p => p.id === parseInt(id));
+    if (!producto) return res.status(404).send('Producto no encontrado');
+    producto = { ...producto, ...req.body };
+    console.log(`Producto actualizado con éxito: ${JSON.stringify(producto)}`);
+    res.status(200).json(producto);
+  } catch (error) {
+    res.status(500).send('Error en el servidor');
+  }
 };
 
 //Eliminar producto por ID
-exports.eliminarProducto = (req, res) => {
-  const index = productos.findIndex(p => p.id === parseInt(req.params.id));
-  if (index === -1) return res.status(404).send('Producto no encontrado');
-  const productoEliminado = productos.splice(index, 1)[0];
-  console.log(`Producto eliminado con éxito: ${JSON.stringify(productoEliminado)}`);
-  res.status(200).json({
-    mensaje: 'Producto eliminado con éxito',
-    producto: productoEliminado
-  });
+exports.deleteProducto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const index = productos.findIndex(p => p.id === parseInt(id));
+    if (index === -1) return res.status(404).send('Producto no encontrado');
+    const productoEliminado = productos.splice(index, 1)[0];
+    console.log(`Producto eliminado con éxito: ${JSON.stringify(productoEliminado)}`);
+    res.status(200).json({
+      mensaje: 'Producto eliminado con éxito',
+      producto: productoEliminado
+    });
+  } catch (error) {
+    res.status(500).send('Error en el servidor');
+  }
 };

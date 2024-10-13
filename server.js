@@ -16,6 +16,9 @@ app.use(express.json());
 const rutasProductos = require('./src/routes/productosRouter');
 app.use('/', rutasProductos);
 
+const rutasUsuarios = require('./src/routes/usuariosRouter');
+app.use('/', rutasUsuarios);
+
 app.listen(port, () => {
   console.log(`Servidor ejecutándose en http://localhost:${port}`);
 });
